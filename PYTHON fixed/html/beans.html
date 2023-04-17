@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyD0q6G7XEMyNXRuGtJSw6fOyZR_A1ZpAfo",
+        authDomain: "ad-organics.firebaseapp.com",
+        databaseURL: "https://ad-organics-default-rtdb.firebaseio.com",
+        projectId: "ad-organics",
+        storageBucket: "ad-organics.appspot.com",
+        messagingSenderId: "823116376288",
+        appId: "1:823116376288:web:f5ccb6e0f843d69966c885"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    import { getDatabase, ref, set, get, child, update, remove }
+        from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
+    const db = getDatabase();
+
+    var name = document.getElementById("name");
+    var phone = document.getElementById("phone");
+    var address = document.getElementById("address");
+    var kilo = document.getElementById("kilo");
+    var order = document.getElementById("order");
+    var type = "Beans";
+    var rate = 310;
+
+    function InsertData() {
+        var total = parseInt(kilo.value) * rate;
+        set(ref(db, "Order/" + name.value), {
+            Name: name.value,
+            Phone: phone.value,
+            Address: address.value,
+            Product: type,
+            Kilogram: parseInt(kilo.value),
+            Rate: rate,
+            Total: total
+        })
+            .then(() => {
+                alert("order placed successfully");
+            })
+            .catch((error) => {
+                alert("unsucessful, error" + error);
+            });
+    }
+
+    order.addEventListener('click', InsertData);
+
+</script>
+<script>
+
+    function redirect() {
+        window.setTimeout(function () {
+
+            // Move to a new location or you can do something else
+            window.location.href = "checkout.html";
+
+        }, 5000);
+    }
+</script>
+
+<body>
+    <label>Name</label><br><input id="name" type="text"><br><br>
+    <label>Phone</label><br><input id="phone" type="text"><br><br>
+    <label>Address</label><br><input id="address" type="text"><br><br>
+    <label>Kilogram</label>
+    <select id="kilo">
+        <option value="1">1</option>
+        <option vaule="2">2</option>
+        <option vaule="3">3</option>
+        <option vaule="4">4</option>
+        <option vaule="5">5</option>
+        <option vaule="6">6</option>
+        <option vaule="7">7</option>
+        <option vaule="8">8</option>
+        <option vaule="9">9</option>
+        <option vaule="10">10</option>
+    </select><br><br>
+    <button id="order" onclick="redirect()"> Order </button>
+</body>
+
+</html>

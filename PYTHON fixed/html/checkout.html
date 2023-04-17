@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>search Data from Firebase</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyD0q6G7XEMyNXRuGtJSw6fOyZR_A1ZpAfo",
+            authDomain: "ad-organics.firebaseapp.com",
+            projectId: "ad-organics",
+            storageBucket: "ad-organics.appspot.com",
+            messagingSenderId: "823116376288",
+            appId: "1:823116376288:web:f5ccb6e0f843d69966c885"
+        };
+        const app = initializeApp(config);
+
+        import { getDatabase, ref, set, get, child, update, remove }
+            from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
+        var db = getDatabase();
+        var name = document.getElementById("name");
+        var nameOutput = document.getElementById("nameOutput");
+        var phoneOutput = document.getElementById("phoneOutput");
+        var addressOutput = document.getElementById("addressOutput");
+        var kiloOutput = document.getElementById("kiloOutput");
+        var orderOutput = document.getElementById("orderOutput");
+        var typeOutput = document.getElementById("typeOutput");
+        var rateOutput = document.getElementById("rateOutput");
+        var totalOutput = document.getElementById("totalOutput");
+
+        function SelectData() {
+            const dbref = ref(db);
+
+            get(child(dbref, "Order/" + name.value)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    nameOutput.innerHTML = "Name: " + snapshot.val().Name;
+                    phoneOutput.innerHTML = "Phone: " + snapshot.val().Phone;
+                    addressOutput.innerHTML = "Address: " + snapshot.val().Address;
+                    kiloOutput.innerHTML = "Kilogram: " + snapshot.val().Kilogram;
+                    orderOutput.innerHTML = "Product: " + snapshot.val().Product;
+                    typeOutput.innerHTML = "Type: " + snapshot.val().Type;
+                    rateOutput.innerHTML = "Rate: " + snapshot.val().Rate;
+                    totalOutput.innerHTML = "Total: " + snapshot.val().Total;
+                } else {
+                    alert("No Data Found");
+                }
+            })
+                .catch((error) => {
+                    alert("Unsuccessful, error: " + error);
+                });
+        }
+
+        search.addEventListener('click', SelectData);
+
+        
+    </script>
+</head>
+
+<body>
+    <h1>YOUR ORDER WAS PLACED SUCESSFULLY</h1>
+    <form>
+        <label for="name">Search with name:</label>
+        <input type="text" id="name">
+        <br>
+        <button type="button" id="search"> search </button>
+    </form>
+    <br>
+    <h2>Order Details:</h2>
+    <div id="output">
+        <p id="nameOutput"></p>
+        <p id="phoneOutput"></p>
+        <p id="addressOutput"></p>
+        <p id="kiloOutput"></p>
+        <p id="orderOutput"></p>
+        <p id="typeOutput"></p>
+        <p id="rateOutput"></p>
+        <p id="totalOutput"></p>
+    </div>
+
+</body>
+
+</html
